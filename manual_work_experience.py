@@ -32,7 +32,6 @@ def clean_linkedin_copied_work_experience(file_path):
         lines = f.readlines()
         i = 0
         while i < len(lines)-2:
-            print(line[i])
 
             if lines[i + 2].startswith("Total Duration"):
                 company = lines[i].rstrip('\n')
