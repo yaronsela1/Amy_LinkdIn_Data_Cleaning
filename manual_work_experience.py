@@ -1,5 +1,5 @@
-PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_pastor_bug.txt'
-CREATE_PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_new.txt'
+PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\yael_haloutz.txt'
+CREATE_PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\yael_haloutz_new.txt'
 # TODO: Create config file with all the const values
 
 
@@ -121,7 +121,7 @@ def brief(path, create_path):
             f.write(line)
 
 if __name__ == '__main__':
-    brief(PATH, CREATE_PATH2)  # TODO: Use arguments and not a const path
+    brief(PATH, CREATE_PATH)  # TODO: Use arguments and not a const path
 
 
 
