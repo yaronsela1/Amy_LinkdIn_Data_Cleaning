@@ -1,5 +1,5 @@
 PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_pastor_bug.txt'
-CREATE_PATH2 = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_new.txt'
+CREATE_PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_new.txt'
 # TODO: Create config file with all the const values
 
 
