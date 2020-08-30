@@ -10,7 +10,10 @@ def multiple_jobs_same_company(i, company, lines, company_lst, position_lst, dat
         if lines[i].startswith(date_checker):
             company_lst.append(company)
 
-            position = lines[i-1].lstrip('Title').rstrip('\n')
+            j = 1
+            while lines[i-j].startswith('Title') == False:
+                j += 1
+            position = lines[i-j].lstrip('Title').rstrip('\n')
             position_lst.append(position)
 
             date = lines[i].replace(date_checker, '').replace('â€“',
