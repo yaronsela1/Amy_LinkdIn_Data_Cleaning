@@ -1,6 +1,4 @@
 PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_pastor_bug.txt'
-PATH2 = 'C:\\Users\\yaron\\Desktop\\Amy\\nimrod_education.txt'
-CREATE_PATH = 'C:\\Users\\yaron\\Desktop\\Amy\\nimrod_new.txt'
 CREATE_PATH2 = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_new.txt'
 # TODO: Create config file with all the const values
 
@@ -8,7 +6,7 @@ CREATE_PATH2 = 'C:\\Users\\yaron\\Desktop\\Amy\\dan_new.txt'
 def multiple_jobs_same_company(i, company, lines, company_lst, position_lst, dates_employed_lst):
     company_checker = "Company Name"
     date_checker = "Dates Employed"
-    while lines[i + 1].startswith(company_checker) == False:
+    while i < len(lines)-2 and lines[i + 1].startswith(company_checker) == False:
         if lines[i].startswith(date_checker):
             company_lst.append(company)
 
@@ -16,7 +14,7 @@ def multiple_jobs_same_company(i, company, lines, company_lst, position_lst, dat
             position_lst.append(position)
 
             date = lines[i].replace(date_checker, '').replace('â€“',
-                                                                  '-')  # TODO: check if there is a cleaner way to do this
+                                                              '-')  # TODO: check if there is a cleaner way to do this
             dates_employed_lst.append(date)
         i += 1
     return company_lst, position_lst, dates_employed_lst, i
@@ -32,7 +30,6 @@ def clean_linkedin_copied_work_experience(file_path):
         lines = f.readlines()
         i = 0
         while i < len(lines)-2:
-
             if lines[i + 2].startswith("Total Duration"):
                 company = lines[i].rstrip('\n')
                 i += 2
@@ -77,12 +74,15 @@ def clean_linkedin_copied_education(file_path):
 
 def finalize_linkedin_copied_work_experience(company_lst, position_lst, dates_employed_lst):
     experience_lst = []
+
     for i in range(len(company_lst)):
-        if dates_employed_lst[i].endswith(' - Present'):
-            dates_employed_lst[i] = dates_employed_lst[i].rstrip(' - Present')
-            dates_employed_lst[i] = 'Since ' + dates_employed_lst[i]
+        if dates_employed_lst[i].endswith('– Present\n'):
+
+            dates_employed_lst[i] = dates_employed_lst[i].rstrip('Present\n').rstrip('– ')
+            dates_employed_lst[i] = '(Since ' + dates_employed_lst[i] + ')' +'\n'
         experience = company_lst[i] + ' (' + position_lst[i] + ') ' + dates_employed_lst[i]
         experience_lst.append(experience)
+
     return experience_lst
 
 
@@ -98,10 +98,20 @@ def brief(path, create_path):
     company_lst, position_lst, dates_employed_lst = clean_linkedin_copied_work_experience(path)
     degree_lst, uni_lst, date_lst = clean_linkedin_copied_education(path)
     with open(create_path, 'w+') as f:
-        f.write('Experience\n\n')
 
         experience_lst = finalize_linkedin_copied_work_experience(company_lst, position_lst, dates_employed_lst)
         education_lst = finalize_linkedin_copied_education(degree_lst, uni_lst, date_lst)
+
+        experience_lst.pop(0)
+        f.write('Company\n\n')
+        f.write(company_lst[0] + '\n')
+        f.write('\nPosition\n\n')
+        current_position = position_lst[0] + " " + dates_employed_lst[0]
+        f.write(current_position.replace('– Present', ''))
+
+        f.write('\nExperience\n\n')
+
+
 
         for line in experience_lst:
             f.write(line)
